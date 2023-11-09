@@ -23,7 +23,7 @@ bool checkPassword(const char* password) {
             specChar++;
         }
     }
-    return numb >= 5 && specChar >= 2 && letter >= 3 && (capLet || smallLet);
+    return numb >= 5 && specChar >= 2 && letter >= 3 && capLet >= 1 && smallLet >= 1;
 }
 int main() {
     string userPassword;
