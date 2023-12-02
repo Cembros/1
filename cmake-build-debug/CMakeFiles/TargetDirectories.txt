@@ -1,3 +1,0 @@
-C:/Users/zeymo/CLionProjects/123/cmake-build-debug/CMakeFiles/123.dir
-C:/Users/zeymo/CLionProjects/123/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/zeymo/CLionProjects/123/cmake-build-debug/CMakeFiles/rebuild_cache.dir
