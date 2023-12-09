@@ -1,6 +1,9 @@
-cmake_minimum_required(VERSION 3.26)
-project(123)
+cmake_minimum_required(VERSION 3.10)
 
-set(CMAKE_CXX_STANDARD 17)
+project(YourProjectName)
 
-add_executable(123 main.cpp)
+add_executable(pointer_exe pointer.cpp)
+
+target_link_libraries(pointer_exe PRIVATE stdc++)
+
+set_property(TARGET pointer_exe PROPERTY CXX_STANDARD 11)
