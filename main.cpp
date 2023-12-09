@@ -25,6 +25,15 @@ bool isUserExists(const string& login, const string& password) {
     return false;
 }
 
+bool isLoginExists(const string& login) {
+    for (const User& user : database) {
+        if (user.login == login) {
+            return true;
+        }
+    }
+    return false;
+}
+
 int getUserIndex(const string& login, const string& password) {
     for (size_t i = 0; i < database.size(); ++i) {
         if (database[i].login == login && database[i].password == password) {
@@ -37,6 +46,7 @@ int getUserIndex(const string& login, const string& password) {
 void showBalance(const User& user) {
     cout << "Balance for user " << user.login << ": $" << user.balance << endl;
 }
+
 void withdrawCash(User& user, double amount) {
     if (amount > 0) {
         if (amount <= user.balance) {
@@ -55,14 +65,22 @@ void depositCash(User& user, double amount) {
         user.balance += amount;
         cout << "Deposit successful. You added $" << amount << " to your balance. New balance: $" << user.balance << endl;
     } else {
-        cout << "Invalid deposit amount." << endl;
+        cout << "Error: Invalid deposit amount." << endl;
     }
 }
 
 void registerUser() {
     User newUser;
-    cout << "Enter login: ";
-    cin >> newUser.login;
+    while (true) {
+        cout << "Enter login: ";
+        cin >> newUser.login;
+
+        if (isLoginExists(newUser.login)) {
+            cout << "Error: User with this login already exists. Please choose a different login." << endl;
+        } else {
+            break;
+        }
+    }
 
     while (true) {
         cout << "Enter password: ";
@@ -107,7 +125,10 @@ void registerUser() {
 }
 
 int main() {
-    while (true) {
+    bool exitProgram = false;
+    User currentUser;
+
+    while (!exitProgram) {
         cout << "Welcome to the bank system!" << endl;
         cout << "1. Login" << endl;
         cout << "2. Register" << endl;
@@ -128,7 +149,7 @@ int main() {
 
                 if (isUserExists(login, password)) {
                     int userIndex = getUserIndex(login, password);
-                    User& currentUser = database[userIndex];
+                    currentUser = database[userIndex];
 
                     while (true) {
                         cout << "1. Show Balance" << endl;
@@ -143,11 +164,13 @@ int main() {
                         switch (userChoice) {
                             case 1:
                                 showBalance(currentUser);
+                                break;
                             case 2: {
                                 double amount;
                                 cout << "Enter amount to withdraw: $";
                                 cin >> amount;
                                 withdrawCash(currentUser, amount);
+                                break;
                             }
                             case 3: {
                                 double amount;
@@ -177,7 +200,8 @@ int main() {
                 break;
             case 3:
                 cout << "Exiting the bank system. Goodbye!" << endl;
-                return 0;
+                exitProgram = true;
+                break;
             default:
                 cout << "Invalid option. Try again." << endl;
         }
